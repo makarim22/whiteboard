@@ -186,7 +186,7 @@ export default function App() {
       <Tldraw onMount={setEditor} store={store} components={{ SharePanel: CustomSharePanel }} />
 
       {hasSelection && (
-        <div style={{ position: 'absolute', bottom: 30, left: '50%', transform: 'translateX(-50%)', zIndex: 9999 }}>
+        <div style={{ position: 'absolute', bottom: 90, left: '50%', transform: 'translateX(-50%)', zIndex: 9999 }}>
           <button 
             onClick={handleSolve}
             disabled={isSolving}
@@ -247,7 +247,7 @@ export default function App() {
           onClick={() => setIsSidebarOpen(true)}
           style={{
             position: 'absolute',
-            top: 12,
+            top: 64,
             left: 12,
             padding: '10px 16px',
             backgroundColor: '#3b82f6',

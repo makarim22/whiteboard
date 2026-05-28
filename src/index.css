@@ -34,3 +34,19 @@ html, body, #root {
 .chalkboard-mode .tl-shape {
   filter: url(#chalk-filter);
 }
+
+/* Custom Chalk Cursor (Cylindrical 3D Shape) */
+.chalkboard-mode .tl-container,
+.chalkboard-mode .tl-canvas,
+.chalkboard-mode .tl-canvas * {
+  /* A 3D cylindrical chalk pointing to top-left */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M2,2 L10,6 L24,20 A4 4 0 0 1 20,24 L6,10 Z' fill='%23ffffff' stroke='%239ca3af' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M6,10 L20,24 A4 4 0 0 0 22,22 L8,8 Z' fill='%23e5e7eb'/%3E%3Cpath d='M2,2 L10,6 L6,10 Z' fill='%23f9fafb' stroke='%239ca3af' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 2 2, crosshair !important;
+}
+
+/* Ensure UI buttons still have the pointer cursor */
+.chalkboard-mode button, 
+.chalkboard-mode button *,
+.chalkboard-mode .tl-ui-button,
+.chalkboard-mode .tl-ui-button * {
+  cursor: pointer !important;
+}
