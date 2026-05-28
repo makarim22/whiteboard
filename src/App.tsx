@@ -123,23 +123,21 @@ export default function App() {
     alert(`Tautan Kelas berhasil disalin!\nBagikan ke murid Anda untuk kolaborasi bersama di ruang: ${roomId}`)
   }
 
-  return (
-    <div style={{ position: 'fixed', inset: 0 }} className={isChalkboard ? 'chalkboard-mode' : ''}>
-      <ChalkFilter />
-      <Tldraw onMount={setEditor} store={store} />
-      
-      <div style={{ position: 'absolute', top: 12, right: 60, zIndex: 9999, display: 'flex', gap: '10px' }}>
+  const CustomSharePanel = () => {
+    return (
+      <div style={{ display: 'flex', gap: '8px', pointerEvents: 'all' }}>
         <button 
           onClick={handleShareLink}
           style={{
-            padding: '8px 16px',
+            padding: '6px 12px',
             backgroundColor: '#fbbf24',
             color: '#78350f',
             border: 'none',
-            borderRadius: '8px',
+            borderRadius: '6px',
             cursor: 'pointer',
             fontWeight: 'bold',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            fontSize: '13px'
           }}
         >
           🤝 Undang Murid
@@ -147,14 +145,15 @@ export default function App() {
         <button 
           onClick={() => setShowApiKeyInput(true)}
           style={{
-            padding: '8px 16px',
+            padding: '6px 12px',
             backgroundColor: '#f3f4f6',
             color: '#374151',
             border: 'none',
-            borderRadius: '8px',
+            borderRadius: '6px',
             cursor: 'pointer',
             fontWeight: 'bold',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            fontSize: '13px'
           }}
         >
           ⚙️ API Key
@@ -162,21 +161,29 @@ export default function App() {
         <button 
           onClick={() => setIsChalkboard(!isChalkboard)}
           style={{
-            padding: '8px 16px',
+            padding: '6px 12px',
             backgroundColor: isChalkboard ? '#ffffff' : '#2b4f3b',
             color: isChalkboard ? '#2b4f3b' : '#ffffff',
             border: 'none',
-            borderRadius: '8px',
+            borderRadius: '6px',
             cursor: 'pointer',
             fontWeight: 'bold',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
             fontFamily: 'sans-serif',
-            transition: 'all 0.2s'
+            transition: 'all 0.2s',
+            fontSize: '13px'
           }}
         >
-          {isChalkboard ? 'Kembali ke Mode Standar' : 'Gunakan Mode Kapur'}
+          {isChalkboard ? 'Standar' : 'Mode Kapur'}
         </button>
       </div>
+    )
+  }
+
+  return (
+    <div style={{ position: 'fixed', inset: 0 }} className={isChalkboard ? 'chalkboard-mode' : ''}>
+      <ChalkFilter />
+      <Tldraw onMount={setEditor} store={store} components={{ SharePanel: CustomSharePanel }} />
 
       {hasSelection && (
         <div style={{ position: 'absolute', bottom: 30, left: '50%', transform: 'translateX(-50%)', zIndex: 9999 }}>
