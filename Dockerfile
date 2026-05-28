@@ -1,5 +1,5 @@
 # Tahap 1: Build aplikasi React/Vite
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Tahap 2: Menjalankan aplikasi dengan web server yang ringan
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
