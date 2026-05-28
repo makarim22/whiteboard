@@ -183,7 +183,12 @@ export default function App() {
   return (
     <div style={{ position: 'fixed', inset: 0 }} className={isChalkboard ? 'chalkboard-mode' : ''}>
       <ChalkFilter />
-      <Tldraw onMount={setEditor} store={store} components={{ SharePanel: CustomSharePanel }} />
+      <Tldraw 
+        onMount={setEditor} 
+        store={store} 
+        components={{ SharePanel: CustomSharePanel }} 
+        licenseKey="tldraw-2026-09-05/WyIzQnV1RmwxWiIsWyIqIl0sMTYsIjIwMjYtMDktMDUiXQ.yozZaBoIzDedhzRIQQAJzVsgTKA4JU0CuQNNsmkZYKLd/lwu34aCq6bCQXqPdt07OzR3Zz4X2qtVaxeJ0tNMsQ"
+      />
 
       {hasSelection && (
         <div style={{ position: 'absolute', bottom: 90, left: '50%', transform: 'translateX(-50%)', zIndex: 9999 }}>
