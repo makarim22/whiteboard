@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Tldraw, Editor, createShapeId } from 'tldraw'
+import { Tldraw, Editor } from 'tldraw'
 import { useSyncDemo } from '@tldraw/sync'
 import 'tldraw/tldraw.css'
 import './index.css'
@@ -19,7 +19,7 @@ const ChalkFilter = () => (
 
 export default function App() {
   // Multiplayer Room ID logic
-  const [roomId, setRoomId] = useState<string>(() => {
+  const [roomId] = useState<string>(() => {
     let hash = window.location.hash.slice(1);
     if (!hash) {
       hash = `kelas-${Math.random().toString(36).substring(2, 8)}`;
