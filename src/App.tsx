@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Tldraw, Editor, createShapeId } from 'tldraw'
+import { useSyncDemo } from '@tldraw/sync'
 import 'tldraw/tldraw.css'
 import './index.css'
 import { solveChemistryFromImage } from './aiSolver'
@@ -17,6 +18,19 @@ const ChalkFilter = () => (
 )
 
 export default function App() {
+  // Multiplayer Room ID logic
+  const [roomId, setRoomId] = useState<string>(() => {
+    let hash = window.location.hash.slice(1);
+    if (!hash) {
+      hash = `kelas-${Math.random().toString(36).substring(2, 8)}`;
+      window.location.hash = hash;
+    }
+    return hash;
+  });
+
+  // Automatically sync with tldraw's demo server using the room ID
+  const store = useSyncDemo({ roomId })
+
   const [isChalkboard, setIsChalkboard] = useState(false)
   const [editor, setEditor] = useState<Editor | null>(null)
   const [hasSelection, setHasSelection] = useState(false)
@@ -26,9 +40,19 @@ export default function App() {
   const [showApiKeyInput, setShowApiKeyInput] = useState(!apiKey)
   const [tempApiKey, setTempApiKey] = useState('')
 
-  // AI Responses Sidebar state
   const [aiResponses, setAiResponses] = useState<string[]>([])
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const newHash = window.location.hash.slice(1)
+      if (newHash && newHash !== roomId) {
+        window.location.reload()
+      }
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [roomId])
 
   useEffect(() => {
     if (editor) {
@@ -78,7 +102,6 @@ export default function App() {
         try {
           const solution = await solveChemistryFromImage(base64data, apiKey, 'image/png')
           
-          // Add solution to sidebar instead of canvas
           setAiResponses(prev => [solution, ...prev])
           setIsSidebarOpen(true)
 
@@ -95,12 +118,32 @@ export default function App() {
     }
   }
 
+  const handleShareLink = () => {
+    navigator.clipboard.writeText(window.location.href)
+    alert(`Tautan Kelas berhasil disalin!\nBagikan ke murid Anda untuk kolaborasi bersama di ruang: ${roomId}`)
+  }
+
   return (
     <div style={{ position: 'fixed', inset: 0 }} className={isChalkboard ? 'chalkboard-mode' : ''}>
       <ChalkFilter />
-      <Tldraw onMount={setEditor} />
+      <Tldraw onMount={setEditor} store={store} />
       
       <div style={{ position: 'absolute', top: 12, right: 60, zIndex: 9999, display: 'flex', gap: '10px' }}>
+        <button 
+          onClick={handleShareLink}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#fbbf24',
+            color: '#78350f',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+          }}
+        >
+          🤝 Undang Murid
+        </button>
         <button 
           onClick={() => setShowApiKeyInput(true)}
           style={{
